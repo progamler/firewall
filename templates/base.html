@@ -1,0 +1,60 @@
+<head>
+    <title>Firewall Request</title>
+    {% load bootstrap3 %}
+
+    {# Load CSS and JavaScript #}
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Firewall Request</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            {% if request.user.is_authenticated %}
+                <form class="navbar-form navbar-right logout" role="form" method="post"
+                      action="{% url 'account_logout' %}">
+                    <button type="submit" class="btn btn-success">Logout</button>
+                    {% csrf_token %}</form>
+                {% if request.user.first_name or request.user.last_name %}
+                    <p class="navbar-text navbar-right">  {{ request.user.first_name }} {{ request.user.last_name }} </p>
+                {% else %}
+                    <p class="navbar-text navbar-right"> {{ request.user.username }}</p>
+                {% endif %}
+
+            {% endif %}
+        </div>
+        <!--/.navbar-collapse -->
+    </div>
+</div>
+<br>
+
+<div class="container">
+    <div class="page-header">
+        {% block tabs %}
+            <ul class="nav nav-tabs">
+                <li {% if request.path  == '/create/host/' %}class="active"{% endif %}><a
+                        href="{% url 'create_host' %}">Create Host</a></li>
+                <li {% if request.path  == '/create/rule/' %}class="active"{% endif %}><a
+                        href="{% url 'create_rule' %}">Create Rule</a></li>
+                <li {% if request.path  == '/list/rules/' %}class="active"{% endif %}><a href="{% url 'list_rules' %}">List
+                    Rules</a></li>
+            </ul>
+        {% endblock %}
+    </div>
+    {% bootstrap_messages %}
+    {% block content %} {% endblock %}
+
+</div>

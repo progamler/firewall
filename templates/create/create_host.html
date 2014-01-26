@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+{% block content %}
+
+
+
+    <form class="form-signin" role="form" action="{% url 'save_host' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="user" value="{{ request.user.username }}">
+
+        <div class="row">
+            <label class="col-sm-2 control-label">Hostname</label>
+
+            <div class="col-sm-3"><input type="text" class="form-control" placeholder="Hostname" required
+                                         name="hostname"></div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 control-label">IP-Addresse</label>
+
+            <div class="col-sm-2"><input type="text" class="form-control" placeholder="IP addresse" required name="IP">
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 control-label">Prefix</label>
+
+            <div class="col-sm-1"><input type="text" class="form-control" placeholder="Prefix" required name="prefix">
+            </div>
+            <div class="col-sm-6">&nbsp</div>
+        </div>
+        <div class="row"><label class="col-sm-2 control-label">Zone</label>
+
+            <div class="col-sm-3">
+                <select class="form-control" name="zone">
+                    {% for z in zone %}
+                        <option value="{{ z.id }}">{{ z.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+            </div>
+        </div>
+
+    </form>
+{% endblock %}

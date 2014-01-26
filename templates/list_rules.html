@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+{% block content %}
+    {% for f in firewall %}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">{{ f.name }} ({{ f.ip }})</div>
+
+
+            <!-- Table -->
+            <table class="table">
+                {% for r in rule %}
+                    {% if f == r.firewall %}
+                        <tr {% if r.permit %}class="success"{% else %}class="danger"{% endif %}>
+                            <td>{{ r.name }}</td>
+                            <td>{{ r.src }}</td>
+                            <td>{{ r.dst }}</td>
+                            <td>{{ r.application }}</td>
+                            <td>{% if r.permit %} Permit {% else %} Deny {% endif %}</td>
+                            <td><a href="{% url 'show_rule' rule_id=r.id %}">Show Commands</a></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+
+    {% endfor %}
+
+
+{% endblock %}
