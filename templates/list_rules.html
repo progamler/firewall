@@ -11,7 +11,10 @@
 
 
             <!-- Table -->
-            <table class="table">
+
+            <table class="table" id="table-1">
+            <tr><th>Rule Name</th><th>SRC Host</th><th>DST Host</th><th>Application</th><th>Action</th></tr>
+            <tbody>
                 {% for r in rule %}
                     {% if f == r.firewall %}
                         <tr {% if r.permit %}class="success"{% else %}class="danger"{% endif %}>
@@ -24,10 +27,17 @@
                         </tr>
                     {% endif %}
                 {% endfor %}
+            </tbody>
             </table>
         </div>
 
+
     {% endfor %}
-
-
+<script type="text/javascript">
+$('#table-1').tableDnD({
+    onDrop: function(table, row) {
+        alert($.tableDnD.serialize());
+    }
+});
+</script>
 {% endblock %}
