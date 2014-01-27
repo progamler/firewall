@@ -4,10 +4,10 @@
     set security zones security-zone {{ dst.zone }} address-book address {{ dst.name }} {{ dst.ip }}/{{ dst.prefix }}</pre>
     <pre>    set applications application ssh protocol {{ application.protocol }} destination-port {{ application.port }}</pre>
     <pre>
-    set security policies from-zone untrust to-zone trust policy {{ rule.name }} match source-address {{ rule.src }}
-    set security policies from-zone untrust to-zone trust policy {{ rule.name }} match destination-address {{ rule.dst }}
-    set security policies from-zone untrust to-zone trust policy {{ rule.name }} match application {{ rule.application }}
-    set security policies from-zone untrust to-zone trust policy {{ rule.name }} then permit
-    set security policies from-zone untrust to-zone trust policy {{ rule.name }} then log session-close
+    set security policies from-zone {{ src.zone }} to-zone {{ dst.zone }} policy {{ rule.name }} match source-address {{ rule.src }}
+    set security policies from-zone {{ src.zone }} to-zone {{ dst.zone }} policy {{ rule.name }} match destination-address {{ rule.dst }}
+    set security policies from-zone {{ src.zone }} to-zone {{ dst.zone }} policy {{ rule.name }} match application {{ rule.application }}
+    set security policies from-zone {{ src.zone }} to-zone {{ dst.zone }} policy {{ rule.name }} then permit
+    set security policies from-zone {{ src.zone }} to-zone {{ dst.zone }} policy {{ rule.name }} then log session-close
 </pre>
 {% endblock %}
