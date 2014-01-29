@@ -5,9 +5,9 @@ class hostAdmin(admin.ModelAdmin):
     list_display = ('name', 'zone', 'ip', 'prefix')
 
 
-class ruleAdmin(admin.ModelAdmin):
-    list_display = ('name', 'src', 'dst', 'application')
-
+# class ruleAdmin(admin.ModelAdmin):
+#     list_display = ('name', 'src', 'dst', 'application')
+#
 
 class firewallAdmin(admin.ModelAdmin):
     list_display = ('name', 'ip')
@@ -21,6 +21,9 @@ admin.site.register(models.protocol)
 admin.site.register(models.application, applicationAdmin)
 admin.site.register(models.host, hostAdmin)
 admin.site.register(models.zone)
-admin.site.register(models.rule, ruleAdmin)
+admin.site.register(models.rule)
+admin.site.register(models.src_address)
+admin.site.register(models.dst_address)
+admin.site.register(models.rule_app)
 admin.site.register(models.firewall, firewallAdmin)
 

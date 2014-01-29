@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <pre>    set security zones security-zone {{ src.zone }} address-book address {{ src.name }} {{ src.ip }}/{{ src.prefix }}
+{% comment %}    <pre>    set security zones security-zone {{ src.zone }} address-book address {{ src.name }} {{ src.ip }}/{{ src.prefix }}
     set security zones security-zone {{ dst.zone }} address-book address {{ dst.name }} {{ dst.ip }}/{{ dst.prefix }}</pre>
     <pre>    set applications application {{ application.protocol }}-{{ application.port }} protocol {{ application.protocol }} destination-port {{ application.port }}</pre>
     <pre>
@@ -9,5 +9,15 @@
     set security policies from-zone {{ src.zone }} to-zone {{ dst.zone }} policy {{ rule.name }} match application {{ rule.application }}
     set security policies from-zone {{ src.zone }} to-zone {{ dst.zone }} policy {{ rule.name }} then permit
     set security policies from-zone {{ src.zone }} to-zone {{ dst.zone }} policy {{ rule.name }} then log session-close
+</pre>{% endcomment %}
+<pre>
+    {% for s in src %}set security policies from-zone {{ src_zone }} to-zone {{ dst_zone }}  policy {{ rule.name }} match source-address {{ s.host.name }}
+    {% endfor %}
+    {% for d in dst %}set security policies from-zone {{ src_zone }} to-zone {{ dst_zone }}  policy {{ rule.name }} match destination-address {{ d.host.name }}
+    {% endfor %}
+    {% for a in application %}set security policies from-zone {{ src_zone }} to-zone {{ dst_zone }}  policy {{ rule.name }} match application {{ a.application }}
+    {% endfor %}
+    set security policies from-zone {{ src_zone }} to-zone {{ dst_zone }} policy {{ rule.name }} then {% if rule.permit == True %}permit{% else %}deny{% endif %}
+    set security policies from-zone {{ src_zone }} to-zone {{ dst_zone }} policy {{ rule.name }} then log session-close
 </pre>
 {% endblock %}

@@ -44,13 +44,24 @@ class firewall(models.Model):
 
 class rule(models.Model):
     name = models.CharField(max_length=255)
-    application = models.ForeignKey(application)
-    src = models.ForeignKey(host, related_name='SRC_HOST')
-    dst = models.ForeignKey(host, related_name='DST_HOST')
     firewall = models.ForeignKey(firewall)
+    prio = models.IntegerField()
     permit = models.BooleanField()
 
     def __str__(self):
         return self.name
+
+class src_address(models.Model):
+    rule = models.ForeignKey(rule)
+    host = models.ForeignKey(host, related_name='SRC_HOST')
+
+
+class dst_address(models.Model):
+    rule = models.ForeignKey(rule)
+    host = models.ForeignKey(host, related_name='DST_HOST')
+
+class rule_app(models.Model):
+    rule = models.ForeignKey(rule)
+    application = models.ForeignKey(application)
 
 

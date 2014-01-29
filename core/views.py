@@ -12,10 +12,12 @@ def home(request):
 
 def display_rule(request, rule_id):
     rule = get_object_or_404(models.rule, pk=rule_id)
-    src = get_object_or_404(models.host, pk=rule.src_id)
-    dst = get_object_or_404(models.host, pk=rule.dst_id)
-    application = get_object_or_404(models.application, pk=rule.application_id)
-    return render(request, "juniper.html", {'rule': rule, 'src': src, 'dst': dst, 'application': application})
+    src = get_list_or_404(models.src_address, rule=rule.id)
+    dst = get_list_or_404(models.dst_address, rule=rule.id)
+    app = get_list_or_404(models.rule_app, rule=rule_id)
+    src_zone = src[0].host.zone
+    dst_zone = dst[0].host.zone
+    return render(request, "juniper.html", {'rule': rule, 'src': src, 'dst': dst, 'application': app, 'src_zone':src_zone, "dst_zone": dst_zone})
 
 
 def create_host(request):
