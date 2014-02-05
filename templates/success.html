@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-    Bingo!
+
+    {% for field in form %}
+        <div class="row">
+            {{ field.errors }}
+            <div class="col-sm-2 control-label">{{ field.label_tag }}</div>
+            <div class="col-sm-3 "> {{ field }}</div>
+        </div>
+    {% endfor %}
+
 {% endblock %}

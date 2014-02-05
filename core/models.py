@@ -65,3 +65,4 @@ class rule_app(models.Model):
     application = models.ForeignKey(application)
 
 
+

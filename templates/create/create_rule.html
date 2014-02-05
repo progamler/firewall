@@ -7,77 +7,32 @@
 
 
 
-    <form class="form-signin" role="form" action="{% url 'save_rule' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="user" value="{{ request.user.username }}">
-
+    {% for field in rule %}
         <div class="row">
-            <label class="col-sm-2 control-label">Rule Name</label>
-
-            <div class="col-sm-3"><input type="text" class="form-control" placeholder="Rulename" required
-                                         name="name"></div>
+            {{ field.errors }}
+            <div class="col-sm-2 control-label">{{ field.label_tag }}</div>
+            <div class="col-sm-3 "> {{ field }}</div>
         </div>
-        <div class="row"><label class="col-sm-2 control-label">Source</label>
-
-            <div class="col-sm-3">
-                <select class="form-control" name="src">
-                    {% for z in host %}
-                        <option value="{{ z.id }}">{{ z.zone }}.{{ z.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="row"><label class="col-sm-2 control-label">Destination</label>
-
-            <div class="col-sm-3">
-                <select class="form-control" name="dst">
-                    {% for z in host %}
-                        <option value="{{ z.id }}">{{ z.zone }}.{{ z.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="row"><label class="col-sm-2 control-label">Application</label>
-
-            <div class="col-sm-3">
-                <select class="form-control" name="app">
-                    {% for z in application %}
-                        <option value="{{ z.id }}">{{ z.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="row"><label class="col-sm-2 control-label">Firewall</label>
-
-            <div class="col-sm-3">
-                <select class="form-control" name="firewall">
-                    {% for z in firewall %}
-                        <option value="{{ z.id }}">{{ z.name }} ({{ z.ip }})</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-
-        <div class="row"><label class="col-sm-2 control-label">Action</label>
-
-            <div class="col-sm-2">
-                <div class="radio">
-                    <input type="radio" name="permit" id="Permit" value="1" checked>Permit
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="radio">
-                    <input type="radio" name="permit" id="Permit" value="0">Deny
-                </div>
-            </div>
-        </div>
-
-
+    {% endfor %}
+        {% for field in src %}
         <div class="row">
-            <div class="col-sm-1">
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
-            </div>
+            {{ field.errors }}
+            <div class="col-sm-2 control-label">{{ field.label_tag }}</div>
+            <div class="col-sm-3 "> {{ field }}</div>
         </div>
-
-    </form>
+    {% endfor %}
+        {% for field in dst %}
+        <div class="row">
+            {{ field.errors }}
+            <div class="col-sm-2 control-label">{{ field.label_tag }}</div>
+            <div class="col-sm-3 "> {{ field }}</div>
+        </div>
+    {% endfor %}
+        {% for field in app %}
+        <div class="row">
+            {{ field.errors }}
+            <div class="col-sm-2 control-label">{{ field.label_tag }}</div>
+            <div class="col-sm-3 "> {{ field }}</div>
+        </div>
+    {% endfor %}
 {% endblock %}
