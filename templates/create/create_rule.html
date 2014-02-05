@@ -6,7 +6,8 @@
 {% block content %}
 
 
-
+ <form class="form-signin" role="form" action="{% url 'save_rule' %}" method="POST">
+       {% csrf_token %}
     {% for field in rule %}
         <div class="row">
             {{ field.errors }}
@@ -35,4 +36,9 @@
             <div class="col-sm-3 "> {{ field }}</div>
         </div>
     {% endfor %}
+            <div class="row">
+            <div class="col-sm-1">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+            </div>
+        </div>
 {% endblock %}

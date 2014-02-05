@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib import messages
-
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from core import models
 
 from django import forms
@@ -21,31 +21,42 @@ class hostForm(forms.ModelForm):
 class ruleForm(forms.ModelForm):
     class Meta:
         model = models.rule
-
+        fields = ['name', 'firewall', 'permit']
         widgets = {
             'name': forms.TextInput(attrs={'class':'form-control'}),
-            'src': forms.SelectMultiple(attrs={'class':'form-control'}),
-            'dst': forms.SelectMultiple(attrs={'class':'form-control'}),
-            'app': forms.SelectMultiple(attrs={'class':'form-control'}),
-            'permit': forms.CheckboxInput(attrs={'class':'form-control'}),
+            'firewall': forms.Select(attrs={'class':'form-control'}),
+            'permit': forms.CheckboxInput(attrs={'class':'form-control'}, ),
         }
 class srcForm(forms.ModelForm):
     class Meta:
         model = models.src_address
-
+        fields = ['host']
+        labels = {
+            'host': ('Source'),
+        }
         widgets = {
-            'name': forms.TextInput(attrs={'class':'form-control'}),
-            'src': forms.SelectMultiple(attrs={'class':'form-control'}),
-            'dst': forms.SelectMultiple(attrs={'class':'form-control'}),
-            'rule': forms.HiddenInput(),
-            'permit': forms.CheckboxInput(attrs={'class':'form-control'}),
+            'host': forms.SelectMultiple(attrs={'class':'form-control'}),
+
         }
 class dstForm(forms.ModelForm):
     class Meta:
         model = models.dst_address
+        fields = ['host']
+        labels = {
+            'host': ('Destination'),
+        }
+        widgets = {
+            'host': forms.SelectMultiple(attrs={'class':'form-control'}),
+
+        }
 class appForm(forms.ModelForm):
     class Meta:
         model = models.rule_app
+        fields = ['application']
+        widgets = {
+            'application': forms.SelectMultiple(attrs={'class':'form-control'}),
+
+        }
 
 # Create your views here.
 def home(request):
@@ -89,15 +100,33 @@ def create_rule(request):
 def save_rule(request):
     if request.method == 'POST': # If the form has been submitted...
         # ContactForm was defined in the the previous section
-        form = hostForm(request.POST) # A form bound to the POST data
-        if form.is_valid(): # All validation rules pass
-            # Process the data in form.cleaned_data
-            # ...
-            return redirect('/create/rule/') # Redirect after POST
+        rule = ruleForm(request.POST) # A form bound to the POST data
+        src = srcForm(request.POST)
+        dst = dstForm(request.POST)
+        app = appForm(request.POST)
+        firewall= get_object_or_404(models.firewall, pk=request.POST['firewall'])
+        s_rule = models.rule(name=request.POST['name'], firewall=firewall,permit=request.POST['permit'],prio=-1)
+        s_rule.save()
+        for data in request.POST.getlist('src-host'):
+            host = get_object_or_404(models.host, pk=data)
+            s_src = models.src_address(rule=s_rule, host=host)
+            s_src.save()
+        for data in request.POST.getlist('dst-host'):
+            host = get_object_or_404(models.host, pk=data)
+            s_dst = models.dst_address(rule=s_rule, host=host)
+            s_dst.save()
+        for data in request.POST.getlist('application'):
+            app = get_object_or_404(models.application, pk=data)
+            s_app = models.rule_app(rule=s_rule, application=app)
+            s_app.save()
+
+
+        return render(request, 'debug.html', {'debug': [request.POST.getlist('dst-host'),request.POST.getlist('src-host'),request.POST.getlist('application'), request.POST] })
+
     else:
         rule = ruleForm() # An unbound form
-        src = srcForm()
-        dst = dstForm()
+        src = srcForm(prefix='src')
+        dst = dstForm(prefix='dst')
         app = appForm()
     return render(request, 'create/create_rule.html', {
         'rule': rule, 'src':src, 'dst':dst, 'app':app,
@@ -113,3 +142,4 @@ def list_rules(request):
     rule = get_list_or_404(models.rule)
     return render(request, "list_rules.html",
                   {'host': host, 'application': application, 'firewall': firewall, 'rule': rule})
+
