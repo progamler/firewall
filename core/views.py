@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from django.contrib import messages
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from core import models
-
+from allauth.account.decorators import verified_email_required
 from django import forms
 
 
