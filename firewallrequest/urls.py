@@ -13,6 +13,8 @@ urlpatterns = patterns('',
                        url(r'^show/rule/(?P<rule_id>\d+)/$', 'core.views.display_rule', name='show_rule'),
                        url(r'^create/host/$', 'core.views.create_host', name='create_host'),
                        url(r'^create/app/$', 'core.views.create_host', name='create_app'),
+                       url(r'^create/app/$', 'core.views.create_zone', name='create_zone'),
+                       url(r'^create/app/$', 'core.views.create_firewall', name='create_firewall'),
                        url(r'^save/rule/$', 'core.views.save_rule', name='save_rule'),
                        url(r'^list/rules/$', 'core.views.list_rules', name='list_rules')
 )
