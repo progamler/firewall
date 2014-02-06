@@ -92,7 +92,9 @@ def create_host(request):
         form = hostForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
-            # ...
+            zone = get_object_or_404(models.zone, pk=request.POST['zone'])
+            obj = models.host(name=request.POST['name'],zone=zone,ip=request.POST['ip'],prefix=request.POST['prefix'])
+            obj.save
             return redirect('/create/rule/') # Redirect after POST
     else:
         form = hostForm() # An unbound form
@@ -123,6 +125,7 @@ def create_zone(request):
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             # ...
+            obj=models.zone(name=request.POST['name'])
             return redirect('/create/zone/') # Redirect after POST
     else:
         form = zoneForm() # An unbound form
@@ -138,6 +141,7 @@ def create_firewall(request):
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             # ...
+            obj=models.zone(name=request.POST['name'],ip=request.POST['ip'])
             return redirect('/create/zone/') # Redirect after POST
     else:
         form = firewallForm() # An unbound form
