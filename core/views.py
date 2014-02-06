@@ -141,7 +141,7 @@ def create_firewall(request):
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             # ...
-            obj=models.zone(name=request.POST['name'],ip=request.POST['ip'])
+            obj=models.firewall(name=request.POST['name'],ip=request.POST['ip'])
             return redirect('/create/zone/') # Redirect after POST
     else:
         form = firewallForm() # An unbound form
