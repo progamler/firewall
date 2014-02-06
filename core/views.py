@@ -64,7 +64,7 @@ def home(request):
         return redirect('/accounts/login/?next=%s' % request.path)
     return render(request, "home.html")
 
-
+@verified_email_required
 def display_rule(request, rule_id):
     rule = get_object_or_404(models.rule, pk=rule_id)
     src = get_list_or_404(models.src_address, rule=rule.id)
@@ -74,7 +74,7 @@ def display_rule(request, rule_id):
     dst_zone = dst[0].host.zone
     return render(request, "juniper.html", {'rule': rule, 'src': src, 'dst': dst, 'application': app, 'src_zone':src_zone, "dst_zone": dst_zone})
 
-
+@verified_email_required
 def create_host(request):
     if request.method == 'POST': # If the form has been submitted...
         # ContactForm was defined in the the previous section
@@ -89,14 +89,7 @@ def create_host(request):
         'form': form,
     })
 
-
-def create_rule(request):
-    host = get_list_or_404(models.host)
-    application = get_list_or_404(models.application)
-    firewall = get_list_or_404(models.firewall)
-    return render(request, "create/create_rule.html", {'host': host, 'application': application, 'firewall': firewall})
-
-
+@verified_email_required
 def save_rule(request):
     if request.method == 'POST': # If the form has been submitted...
         # ContactForm was defined in the the previous section
@@ -133,7 +126,7 @@ def save_rule(request):
     })
 
 
-
+@verified_email_required
 def list_rules(request):
     zone = get_list_or_404(models.zone)
     host = get_list_or_404(models.host)
