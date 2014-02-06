@@ -116,6 +116,36 @@ def create_app(request):
     })
 
 @verified_email_required
+def create_zone(request):
+    if request.method == 'POST': # If the form has been submitted...
+        # ContactForm was defined in the the previous section
+        form = hostForm(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            # ...
+            return redirect('/create/zone/') # Redirect after POST
+    else:
+        form = zoneForm() # An unbound form
+    return render(request, 'success.html', {
+        'form': form,
+    })
+
+@verified_email_required
+def create_firewall(request):
+    if request.method == 'POST': # If the form has been submitted...
+        # ContactForm was defined in the the previous section
+        form = hostForm(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            # ...
+            return redirect('/create/zone/') # Redirect after POST
+    else:
+        form = firewallForm() # An unbound form
+    return render(request, 'success.html', {
+        'form': form,
+    })
+    
+@verified_email_required
 def save_rule(request):
     if request.method == 'POST': # If the form has been submitted...
         # ContactForm was defined in the the previous section
