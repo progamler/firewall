@@ -60,6 +60,14 @@ class appForm(forms.ModelForm):
 class newappForm(forms.ModelForm):
     class Meta:
         model = models.application
+        
+class zoneForm(forms.ModelForm):
+    class Meta:
+        model = models.zone
+        
+class firewallForm(forms.ModelForm):
+    class Meta:
+        model = models.firewall
 
 # Create your views here.
 def home(request):
