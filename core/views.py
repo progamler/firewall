@@ -59,7 +59,7 @@ class appForm(forms.ModelForm):
         }
 class newappForm(forms.ModelForm):
     class Meta:
-        model = models.applications
+        model = models.application
 
 # Create your views here.
 def home(request):
