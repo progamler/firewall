@@ -110,6 +110,8 @@ def create_app(request):
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             # ...
+            obj = models.application(name=request.POST['name'],port=request.POST['port'],protocol=request.POST['protocol'])
+            obj.save
             return redirect('/create/application/') # Redirect after POST
     else:
         form = newappForm() # An unbound form
@@ -126,6 +128,7 @@ def create_zone(request):
             # Process the data in form.cleaned_data
             # ...
             obj=models.zone(name=request.POST['name'])
+            obj.save
             return redirect('/create/zone/') # Redirect after POST
     else:
         form = zoneForm() # An unbound form
@@ -142,6 +145,7 @@ def create_firewall(request):
             # Process the data in form.cleaned_data
             # ...
             obj=models.firewall(name=request.POST['name'],ip=request.POST['ip'])
+            obj.save
             return redirect('/create/zone/') # Redirect after POST
     else:
         form = firewallForm() # An unbound form
