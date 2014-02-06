@@ -57,6 +57,9 @@ class appForm(forms.ModelForm):
             'application': forms.SelectMultiple(attrs={'class':'form-control'}),
 
         }
+class newappForm(forms.ModelForm):
+    class Meta:
+        model = models.applications
 
 # Create your views here.
 def home(request):
@@ -85,6 +88,21 @@ def create_host(request):
             return redirect('/create/rule/') # Redirect after POST
     else:
         form = hostForm() # An unbound form
+    return render(request, 'success.html', {
+        'form': form,
+    })
+
+@verified_email_required
+def create_app(request):
+    if request.method == 'POST': # If the form has been submitted...
+        # ContactForm was defined in the the previous section
+        form = hostForm(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            # ...
+            return redirect('/create/application/') # Redirect after POST
+    else:
+        form = newappForm() # An unbound form
     return render(request, 'success.html', {
         'form': form,
     })
