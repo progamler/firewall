@@ -53,7 +53,7 @@
                 <li {% if request.path  == '/create/host/' %}class="active"{% endif %}><a
                         href="{% url 'create_host' %}">Create Host</a></li>
                 <li {% if request.path  == '/create/rule/' %}class="active"{% endif %}><a
-                        href="{% url 'create_rule' %}">Create Rule</a></li>
+                        href="{% url 'save_rule' %}">Create Rule</a></li>
                 <li {% if request.path  == '/list/rules/' %}class="active"{% endif %}><a href="{% url 'list_rules' %}">List
                     Rules</a></li>
             </ul>
