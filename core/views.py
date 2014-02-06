@@ -104,7 +104,7 @@ def create_host(request):
 def create_app(request):
     if request.method == 'POST': # If the form has been submitted...
         # ContactForm was defined in the the previous section
-        form = hostForm(request.POST) # A form bound to the POST data
+        form = newappForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             # ...
@@ -119,7 +119,7 @@ def create_app(request):
 def create_zone(request):
     if request.method == 'POST': # If the form has been submitted...
         # ContactForm was defined in the the previous section
-        form = hostForm(request.POST) # A form bound to the POST data
+        form = zoneForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             # ...
@@ -134,7 +134,7 @@ def create_zone(request):
 def create_firewall(request):
     if request.method == 'POST': # If the form has been submitted...
         # ContactForm was defined in the the previous section
-        form = hostForm(request.POST) # A form bound to the POST data
+        form = firewallForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             # ...
